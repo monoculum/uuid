@@ -6,8 +6,6 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"monoculum/common/errors"
-
 	"github.com/satori/go.uuid"
 )
 
@@ -115,11 +113,11 @@ func NewV1(dash bool) (UUID, error) {
 	if !dash {
 		d := bytes.Replace(b, []byte("-"), []byte(""), -1)
 		if _, err := hex.Decode(u[:], d); err != nil {
-			return u, errors.New(err)
+			return u, err
 		}
 	} else {
 		if _, err := hex.Decode(u[:], b); err != nil {
-			return u, errors.New(err)
+			return u, err
 		}
 	}
 	return u, nil
@@ -139,7 +137,7 @@ func NewV1Ordered(dash bool) (UUID, error) {
 		copy(buf[16:20], d[16:20])
 		copy(buf[20:], d[20:])
 		if _, err := hex.Decode(u[:], buf); err != nil {
-			return u, errors.New(err)
+			return u, err
 		}
 	} else {
 		// TODO: implement it with dash
