@@ -108,7 +108,10 @@ func FromString(input string) (u UUID, err error) {
 func NewV1(dash bool) (UUID, error) {
 	var u UUID
 	b := make([]byte, 36)
-	n := uuid.NewV1()
+	n, err := uuid.NewV1()
+	if err != nil {
+		return u, err
+	}
 	hex.Encode(b, n.Bytes())
 	if !dash {
 		d := bytes.Replace(b, []byte("-"), []byte(""), -1)
@@ -126,7 +129,10 @@ func NewV1(dash bool) (UUID, error) {
 func NewV1Ordered(dash bool) (UUID, error) {
 	var u UUID
 	b := make([]byte, 36)
-	n := uuid.NewV1()
+	n, err := uuid.NewV1()
+	if err != nil {
+		return u, err
+	}
 	hex.Encode(b, n.Bytes())
 	if !dash {
 		d := bytes.Replace(b, []byte("-"), []byte(""), -1)
@@ -145,6 +151,6 @@ func NewV1Ordered(dash bool) (UUID, error) {
 	return u, nil
 }
 
-func NewV4() uuid.UUID {
+func NewV4() (uuid.UUID, error) {
 	return uuid.NewV4()
 }
