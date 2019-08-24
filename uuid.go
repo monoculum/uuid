@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/satori/go.uuid"
+	"github.com/gofrs/uuid"
 )
 
 type UUID [16]byte
