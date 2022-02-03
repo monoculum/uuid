@@ -9,7 +9,6 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// swagger:strfmt uuid
 type UUID [16]byte
 
 var Zero = UUID{}
