@@ -1,4 +1,4 @@
-module uuid
+module github.com/monoculum/uuid
 
 go 1.20
 
