@@ -9,6 +9,7 @@ import (
 	"github.com/gofrs/uuid"
 )
 
+// swagger:strfmt uuid
 type UUID [16]byte
 
 var Zero = UUID{}
@@ -105,52 +106,32 @@ func FromString(input string) (u UUID, err error) {
 	return
 }
 
-func NewV1(dash bool) (UUID, error) {
+func NewV1() (UUID, error) {
 	var u UUID
-	b := make([]byte, 36)
 	n, err := uuid.NewV1()
 	if err != nil {
 		return u, err
 	}
-	hex.Encode(b, n.Bytes())
-	if !dash {
-		d := bytes.Replace(b, []byte("-"), []byte(""), -1)
-		if _, err := hex.Decode(u[:], d); err != nil {
-			return u, err
-		}
-	} else {
-		if _, err := hex.Decode(u[:], b); err != nil {
-			return u, err
-		}
-	}
+	u = UUID(n)
 	return u, nil
 }
 
-func NewV1Ordered(dash bool) (UUID, error) {
+func NewV7() (UUID, error) {
 	var u UUID
-	b := make([]byte, 36)
-	n, err := uuid.NewV1()
+	n, err := uuid.NewV7()
 	if err != nil {
 		return u, err
 	}
-	hex.Encode(b, n.Bytes())
-	if !dash {
-		d := bytes.Replace(b, []byte("-"), []byte(""), -1)
-		buf := make([]byte, 32)
-		copy(buf[0:4], d[12:16])
-		copy(buf[4:8], d[8:12])
-		copy(buf[8:16], d[0:8])
-		copy(buf[16:20], d[16:20])
-		copy(buf[20:], d[20:])
-		if _, err := hex.Decode(u[:], buf); err != nil {
-			return u, err
-		}
-	} else {
-		// TODO: implement it with dash
-	}
+	u = UUID(n)
 	return u, nil
 }
 
-func NewV4() (uuid.UUID, error) {
-	return uuid.NewV4()
+func NewV4() (UUID, error) {
+	var u UUID
+	n, err := uuid.NewV4()
+	if err != nil {
+		return u, err
+	}
+	u = UUID(n)
+	return u, nil
 }
